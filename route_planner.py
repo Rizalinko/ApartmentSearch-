@@ -4,7 +4,7 @@ import googlemaps
 from datetime import datetime, timedelta
 
 
-gmaps = googlemaps.Client(key='AIzaSyA7np_5xrO87IWaW8GgKENp5q7bO-x_DxE')
+gmaps = googlemaps.Client(key='put_key_here')
 
 geocode_result = gmaps.geocode('1600 Amphitheatre Parkway, Mountain View, CA')
 reverse_geocode_result = gmaps.reverse_geocode((40.714224, -73.961452))
