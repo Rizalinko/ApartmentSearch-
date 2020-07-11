@@ -6,7 +6,7 @@ import scraper
 import route_planner
 import analyse_search
 
-import selenium_test
+import seleniumClicker as scliker
 
 performsearch = True
 ifCheckCommute = False
@@ -29,7 +29,7 @@ if __name__ == '__main__':
                 if len(apartments)==0:
                     print('{}: No new apartments'.format(datetime.datetime.now()))
                 for link in apartments['links']:
-                    selenium_test.clickOnlinkHomegate(link)
+                    scliker.clickOnlinkHomegate(link)
                     time.sleep(60)
             else:
                 break

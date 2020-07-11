@@ -6,7 +6,7 @@ from requests import get
 import pandas as pd
 from os import path
 import time
-import selenium_test
+import seleniumClicker as sclicker
 import selenium
 import datetime
 
@@ -141,4 +141,4 @@ if __name__=="__main__":
 
     else:
         link = 'https://www.comparis.ch/immobilien/marktplatz/details/show/23370397'
-        selenium_test.ClickOnLinkComparis(link)
+        sclicker.ClickOnLinkComparis(link)

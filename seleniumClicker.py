@@ -2,20 +2,34 @@ import os
 from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import Select
+import json
 
-message = 'Gruezi, Wir sind eine Paar, die sehr an Ihrer Wohnung interessiert sind und würden uns über einen Besichtigungstermin freuen. \n Grüsse, Ramun and Rizalina'
-# '\n\nFür English: 0762751992 \nFür Deutsch: 0765038724 \nGrüsse, Ramun and Rizalina'
 
+def read_udata(jname):
+    '''
+    Reads user data from the json
+    :return: json of the user data to be submitted to website
+    '''
+    with open(jname) as jsfile:
+        return json.load(jsfile)
 
 def ClickOnOriginalLink(url):
-    user_data = {'Firstname': 'Ramun', 'LastName': 'Benedetti', 'Email': 'rizalinko@gmail.com', 'Phone': '0762751992',
-                'Message': message}
+    '''
+
+    :param url: url of the page with the contact form to fill up for the aprt application
+    :return:
+    '''
+
+    # Read user data from json
+    # Returned json has the following structure: {'Firstname': '', 'LastName': '', 'Email': '', 'Phone': '',
+    #      'Message': message}
+    user_data = read_udata('FormData')
+
 
     opts = Options()
     opts.set_headless()
     browser = Firefox(options=opts)
     browser.get(url)
-
 
     for key in user_data.keys():
         form = browser.find_elements_by_name(key)
@@ -30,8 +44,12 @@ def ClickOnOriginalLink(url):
     button[0].click()
 
 def ClickOnLinkComparis(url):
-    user_data = {'ContactFullName': 'Ramun Benedetti', 'ContactEmail': 'rizalinko@gmail.com', 'ContactPhoneNumber': '0762751992',
-                 'ContactMessage': message}
+
+    # Reads user data
+    # the user_data json is in the following format: user_data = {'ContactFullName': 'Ramun Benedetti', 'ContactEmail': 'rizalinko@gmail.com', 'ContactPhoneNumber': '0762751992',
+    #                  'ContactMessage': message}
+    user_data = read_udata('FormDataComparis.json')
+
     opts = Options()
     opts.set_headless()
     browser = Firefox(options=opts)
@@ -70,8 +88,10 @@ def ClickOnLinkComparis(url):
 
 
 def clickOnlinkHomegate(url):
-    user_data = {'firstName': 'Ramun', 'lastName': 'Benedetti', 'email': 'rizalinko@gmail.com', 'phone': '0762751992',
-                 'street': 'Am Glattbogen 175', 'city': 'Zurich', 'zip': '8050'}
+    # The user data json is in the following format: {'firstName': '', 'lastName': '', 'email': '', 'phone': '',
+    #                  'street': '', 'city': '', 'zip': ''}
+    user_data = read_udata('FormDataHomegate.json')
+
 
     opts = Options()
     opts.set_headless()
@@ -89,6 +109,9 @@ def clickOnlinkHomegate(url):
     text_class = 'HgTextArea_textArea_-4ajb'
     message_box = browser.find_elements_by_class_name(text_class)
     message_box[0].clear()
+
+    # message is not in the read in json. get the message value from the base form
+    message = read_udata('FormData.json')['message']
     message_box[0].send_keys(message)
 
     class_name = "HgButton_hgButton_35t1k.HgButton_primary_1zzAF.HgButton_defaultSize_2pFlx.ContactForm_submitButton_dSxPi"
