@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
-import pandas as pd
+# import pandas as pd
 import datetime
 import time
 import scraper
 import route_planner
-import analyse_search
+from apt_search import analyse_search
 
 import seleniumClicker as scliker
 
 performsearch = True
+loadDB = True
 ifCheckCommute = False
-ifapply = True
+apply = True
 
 
 if __name__ == '__main__':
-    scraper = scraper.ListingsScraper(release=False, nrooms=3, rprice=(1200,1750), balcony=True)
+    scraper = scraper.ListingsScraper(release=False, nrooms=3, rprice=(1200, 1750), balcony=True)
 
     if performsearch:
 
@@ -25,7 +26,7 @@ if __name__ == '__main__':
                 apartments = route_planner.evaluateCommutes(apartments)
             scraper.UpdateArchiveListings(apartments)
 
-            if ifapply:
+            if apply:
                 if len(apartments)==0:
                     print('{}: No new apartments'.format(datetime.datetime.now()))
                 for link in apartments['links']:
@@ -35,10 +36,10 @@ if __name__ == '__main__':
                 break
             time.sleep(300)
 
-    else:
+    elif loadDB:
         apartments = scraper.getArxiveDf()
         apartments = route_planner.evaluateCommutes(apartments)
 
-    if not ifapply:
-        analyse_search.PrintOptions(apartments, noptions = 'all')
+    if not apply:
+        analyse_search.PrintOptions(apartments, noptions ='all')
 
